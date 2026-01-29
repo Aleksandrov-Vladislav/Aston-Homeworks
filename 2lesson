@@ -11,6 +11,12 @@ public class Main {
         for (Product product : productsArray) {
             product.printInfo();
         }
+        
+        Park park = new Park("Disneyland");
+        park.addAttraction("Space Mountain", "10:00-22:00", 25.50);
+        park.addAttraction("Pirates of Caribbean", "09:00-23:00", 18.00);
+        
+        park.printAttractions();
     }
 }
 
@@ -39,5 +45,44 @@ class Product {
         System.out.println("Цена: " + price);
         System.out.println("Забронирован: " + (isReserved ? "Да" : "Нет"));
         System.out.println("----------------------");
+    }
+}
+
+class Park {
+    String name;
+    Attraction[] attractions;
+    int attractionCount;
+    
+    class Attraction {
+        String name;
+        String workingHours;
+        double price;
+        
+        Attraction(String name, String workingHours, double price) {
+            this.name = name;
+            this.workingHours = workingHours;
+            this.price = price;
+        }
+    }
+    
+    public Park(String name) {
+        this.name = name;
+        this.attractions = new Attraction[10];
+        this.attractionCount = 0;
+    }
+    
+    public void addAttraction(String name, String workingHours, double price) {
+        if (attractionCount < attractions.length) {
+            attractions[attractionCount] = new Attraction(name, workingHours, price);
+            attractionCount++;
+        }
+    }
+    
+    public void printAttractions() {
+        System.out.println("\nПарк: " + name);
+        System.out.println("Аттракции:");
+        for (int i = 0; i < attractionCount; i++) {
+            System.out.println((i+1) + ". " + attractions[i].name + " | Время: " + attractions[i].workingHours + " | Цена: $" + attractions[i].price);
+        }
     }
 }
