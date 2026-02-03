@@ -1,0 +1,108 @@
+import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Факториал 5: " + factorial(5));
+        System.out.println("Площадь треугольника: " + triangleArea(10, 5));
+        System.out.println("Сложение: " + add(2, 3));
+        System.out.println("Сравнение: " + compareNumbers(5, 3));
+    }
+    
+    public static long factorial(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("Факториал отрицательного числа не определен");
+        }
+        long result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+    
+    public static double triangleArea(double base, double height) {
+        if (base <= 0 || height <= 0) {
+            throw new IllegalArgumentException("Основание и высота должны быть положительными");
+        }
+        return 0.5 * base * height;
+    }
+    
+    public static int add(int a, int b) {
+        return a + b;
+    }
+    
+    public static int subtract(int a, int b) {
+        return a - b;
+    }
+    
+    public static int multiply(int a, int b) {
+        return a * b;
+    }
+    
+    public static double divide(int a, int b) {
+        if (b == 0) {
+            throw new ArithmeticException("Деление на ноль");
+        }
+        return (double) a / b;
+    }
+    
+    public static String compareNumbers(int a, int b) {
+        if (a > b) {
+            return a + " больше " + b;
+        } else if (a < b) {
+            return a + " меньше " + b;
+        } else {
+            return a + " равно " + b;
+        }
+    }
+}
+
+class MathOperationsTestNGTest {
+    @Test
+    public void testFactorial() {
+        assertEquals(Main.factorial(0), 1L);
+        assertEquals(Main.factorial(1), 1L);
+        assertEquals(Main.factorial(5), 120L);
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testFactorialNegative() {
+        Main.factorial(-1);
+    }
+    
+    @Test
+    public void testTriangleArea() {
+        assertEquals(Main.triangleArea(5, 4), 10.0);
+        assertEquals(Main.triangleArea(1, 5), 2.5);
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTriangleAreaNegativeBase() {
+        Main.triangleArea(-5, 4);
+    }
+    
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testTriangleAreaNegativeHeight() {
+        Main.triangleArea(5, -4);
+    }
+    
+    @Test
+    public void testArithmeticOperations() {
+        assertEquals(Main.add(10, 5), 15);
+        assertEquals(Main.subtract(10, 5), 5);
+        assertEquals(Main.multiply(10, 5), 50);
+        assertEquals(Main.divide(10, 5), 2.0);
+    }
+    
+    @Test(expectedExceptions = ArithmeticException.class)
+    public void testDivisionByZero() {
+        Main.divide(10, 0);
+    }
+    
+    @Test
+    public void testCompareNumbers() {
+        assertEquals(Main.compareNumbers(10, 5), "10 больше 5");
+        assertEquals(Main.compareNumbers(5, 10), "5 меньше 10");
+        assertEquals(Main.compareNumbers(5, 5), "5 равно 5");
+    }
+}
