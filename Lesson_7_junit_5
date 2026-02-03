@@ -1,0 +1,92 @@
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Факториал 5: " + factorial(5));
+        System.out.println("Площадь треугольника: " + triangleArea(10, 5));
+        System.out.println("Сложение: " + add(2, 3));
+        System.out.println("Сравнение: " + compareNumbers(5, 3));
+    }
+    
+    public static long factorial(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("Факториал отрицательного числа не определен");
+        }
+        long result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+    
+    public static double triangleArea(double base, double height) {
+        if (base <= 0 || height <= 0) {
+            throw new IllegalArgumentException("Основание и высота должны быть положительными");
+        }
+        return 0.5 * base * height;
+    }
+    
+    public static int add(int a, int b) {
+        return a + b;
+    }
+    
+    public static int subtract(int a, int b) {
+        return a - b;
+    }
+    
+    public static int multiply(int a, int b) {
+        return a * b;
+    }
+    
+    public static double divide(int a, int b) {
+        if (b == 0) {
+            throw new ArithmeticException("Деление на ноль");
+        }
+        return (double) a / b;
+    }
+    
+    public static String compareNumbers(int a, int b) {
+        if (a > b) {
+            return a + " больше " + b;
+        } else if (a < b) {
+            return a + " меньше " + b;
+        } else {
+            return a + " равно " + b;
+        }
+    }
+}
+
+class MathOperationsJUnitTest {
+    @Test
+    void testFactorial() {
+        assertEquals(1, Main.factorial(0));
+        assertEquals(1, Main.factorial(1));
+        assertEquals(120, Main.factorial(5));
+        assertThrows(IllegalArgumentException.class, () -> Main.factorial(-1));
+    }
+    
+    @Test
+    void testTriangleArea() {
+        assertEquals(10.0, Main.triangleArea(5, 4));
+        assertEquals(2.5, Main.triangleArea(1, 5));
+        assertThrows(IllegalArgumentException.class, () -> Main.triangleArea(-5, 4));
+        assertThrows(IllegalArgumentException.class, () -> Main.triangleArea(5, -4));
+    }
+    
+    @Test
+    void testArithmeticOperations() {
+        assertEquals(15, Main.add(10, 5));
+        assertEquals(5, Main.subtract(10, 5));
+        assertEquals(50, Main.multiply(10, 5));
+        assertEquals(2.0, Main.divide(10, 5));
+        assertThrows(ArithmeticException.class, () -> Main.divide(10, 0));
+    }
+    
+    @Test
+    void testCompareNumbers() {
+        assertEquals("10 больше 5", Main.compareNumbers(10, 5));
+        assertEquals("5 меньше 10", Main.compareNumbers(5, 10));
+        assertEquals("5 равно 5", Main.compareNumbers(5, 5));
+    }
+}
