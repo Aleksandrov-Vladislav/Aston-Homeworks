@@ -1,0 +1,111 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Set<Student> students = new HashSet<>();
+        
+        students.add(new Student("Иван", "Группа1", 1, new int[]{4, 5, 3, 4}));
+        students.add(new Student("Мария", "Группа2", 1, new int[]{2, 2, 3, 2}));
+        students.add(new Student("Петр", "Группа1", 2, new int[]{5, 5, 5, 5}));
+        students.add(new Student("Анна", "Группа3", 2, new int[]{3, 3, 2, 2}));
+        students.add(new Student("Сергей", "Группа2", 3, new int[]{4, 4, 4, 3}));
+        
+        System.out.println("Все студенты:");
+        for (Student s : students) {
+            System.out.println(s);
+        }
+        
+        removeBadStudents(students);
+        
+        System.out.println("\nПосле удаления отстающих:");
+        for (Student s : students) {
+            System.out.println(s);
+        }
+        
+        System.out.println("\nСтуденты 2 курса (до перевода):");
+        printStudents(students, 2);
+        
+        promoteStudents(students);
+        
+        System.out.println("\nПосле перевода на следующий курс:");
+        for (Student s : students) {
+            System.out.println(s);
+        }
+        
+        System.out.println("\nСтуденты 3 курса (после перевода):");
+        printStudents(students, 3);
+    }
+    
+    public static void removeBadStudents(Set<Student> students) {
+        students.removeIf(student -> student.getAverageGrade() < 3);
+    }
+    
+    public static void promoteStudents(Set<Student> students) {
+        for (Student student : students) {
+            if (student.getAverageGrade() >= 3) {
+                student.promoteToNextCourse();
+            }
+        }
+    }
+    
+    public static void printStudents(Set<Student> students, int course) {
+        for (Student student : students) {
+            if (student.getCourse() == course) {
+                System.out.println(student.getName());
+            }
+        }
+    }
+}
+
+class Student {
+    private String name;
+    private String group;
+    private int course;
+    private int[] grades;
+    
+    public Student(String name, String group, int course, int[] grades) {
+        this.name = name;
+        this.group = group;
+        this.course = course;
+        this.grades = grades;
+    }
+    
+    public double getAverageGrade() {
+        if (grades.length == 0) return 0;
+        double sum = 0;
+        for (int grade : grades) {
+            sum += grade;
+        }
+        return sum / grades.length;
+    }
+    
+    public void promoteToNextCourse() {
+        this.course++;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getCourse() {
+        return course;
+    }
+    
+    @Override
+    public String toString() {
+        return name + ", " + group + ", курс " + course + ", средний балл: " + String.format("%.2f", getAverageGrade());
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return Objects.equals(name, student.name);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+}
