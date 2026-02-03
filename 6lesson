@@ -4,11 +4,11 @@ public class Main {
     public static void main(String[] args) {
         Set<Student> students = new HashSet<>();
         
-        students.add(new Student("Иван", "Группа1", 1, new int[]{4, 5, 3, 4}));
-        students.add(new Student("Мария", "Группа2", 1, new int[]{2, 2, 3, 2}));
-        students.add(new Student("Петр", "Группа1", 2, new int[]{5, 5, 5, 5}));
-        students.add(new Student("Анна", "Группа3", 2, new int[]{3, 3, 2, 2}));
-        students.add(new Student("Сергей", "Группа2", 3, new int[]{4, 4, 4, 3}));
+        students.add(new Student("Иван", "Группа 1", 1, new int[]{4, 5, 3, 4}));
+        students.add(new Student("Мария", "Группа 2", 1, new int[]{2, 2, 3, 2}));
+        students.add(new Student("Петр", "Группа 1", 2, new int[]{5, 5, 5, 5}));
+        students.add(new Student("Анна", "Группа 3", 2, new int[]{3, 3, 2, 2}));
+        students.add(new Student("Сергей", "Группа 2", 3, new int[]{4, 4, 4, 3}));
         
         System.out.println("Все студенты:");
         for (Student s : students) {
@@ -34,6 +34,18 @@ public class Main {
         
         System.out.println("\nСтуденты 3 курса (после перевода):");
         printStudents(students, 3);
+        
+        PhoneBook phoneBook = new PhoneBook();
+        phoneBook.add("Иванов", "+79164867586");
+        phoneBook.add("Петров", "+79035264875");
+        phoneBook.add("Иванов", "+790154878652");
+        phoneBook.add("Сидоров", "+79084562389");
+        
+        System.out.println("\nТелефонный справочник:");
+        System.out.println("Иванов: " + phoneBook.get("Иванов"));
+        System.out.println("Петров: " + phoneBook.get("Петров"));
+        System.out.println("Сидоров: " + phoneBook.get("Сидоров"));
+        System.out.println("Несуществующий: " + phoneBook.get("Несуществующий"));
     }
     
     public static void removeBadStudents(Set<Student> students) {
@@ -107,5 +119,22 @@ class Student {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+}
+
+class PhoneBook {
+    private Map<String, List<String>> contacts;
+    
+    public PhoneBook() {
+        contacts = new HashMap<>();
+    }
+    
+    public void add(String lastName, String phoneNumber) {
+        contacts.putIfAbsent(lastName, new ArrayList<>());
+        contacts.get(lastName).add(phoneNumber);
+    }
+    
+    public List<String> get(String lastName) {
+        return contacts.getOrDefault(lastName, new ArrayList<>());
     }
 }
